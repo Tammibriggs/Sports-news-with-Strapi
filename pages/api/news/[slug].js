@@ -2,5 +2,11 @@ const {news} = require('./data.json')
 
 export default function handler(req, res) {
   const newsArticle = news.filter(item => item.slug == req.query.slug)
-  res.status(200).json(newsArticle)
+  if(req.method === 'GET'){
+    res.status(200).json(newsArticle)
+  } else{
+    res.setHeader('Allow', ['GET'])
+    res.status(405).json({messages: `Method ${req.method} is not allowed`})
+  }
+  
 }
